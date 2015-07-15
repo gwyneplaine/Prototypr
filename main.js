@@ -1,18 +1,31 @@
 var app = app || {};
 app.svgns = "http://www.w3.org/2000/svg";
-app.prototyper = {
+app.prototypr = {
 	clickCounter:0,
 	pos:[],
+	addImage: function(){
+
+	},
+	removeImage: function(){
+
+	},
 	sides:3,
 	polygonCount:0,
-	initialize:function(width,height){
-		app.paper = Snap('#canvas');
-		// app.paper = Snap(100,200);
-		$('#canvas').attr('width',width).attr('height',height);
+	initialize:function(){
+		app.paper = Snap('#pt-canvas');
+
 		console.log(app.paper.node);
-		app.paper.node.id = "canvas";
+		// THIS IS A WAY OF CREATING THE SNAP OBJECT AND GIVING IT AN ID. 
+
+		// app.paper = Snap(100,200);
+		// app.paper.node.id = "canvas";
+	},
+	resize: function(width, height){
+		// THIS FUNCTION IS FOR RESIZING THE SVG/SNAP OBJECT
+		$('#pt-canvas').attr('width',width).attr('height',height);
 	},
 	plotPoints: function(x,y){
+		// THIS FUNCTION IS FOR KEEPING TRACK OF PLOTTED POINTS
 		var offsetX = -8;
 		var offsetY = -8;
 		//push co-ordinates to the pos array everytime this function is called;
@@ -29,15 +42,24 @@ app.prototyper = {
 			this.pos = [];
 		}
 	}, 
+	initAttr: function(fill, stroke, strokeOpacity, strokeWidth){
+		strokeOpacity = typeof strokeOpacity !== 'undefined' ? strokeOpacity : 1;
+		strokeWidth = typeof strokeOpacity !== 'undefined' ? strokeWidth : 1;
+	}
 }
 $(document).ready(function(){
 	var winW = $(window).innerWidth();
 	var winH = $(window).innerHeight();
 	// $('#drawableCanv').width(winW).height(winH);
 	// var paper = Snap('#drawableCanv');
-	app.prototyper.initialize(winW,winH);
+	app.prototypr.initialize();
+	app.prototypr.resize(winW,winH)
+	$(window).on('resize',function(e){
+		app.prototypr.resize(winW,winH);
+	});
+
 	$('svg').on('click',function(e){
-		app.prototyper.plotPoints(e.clientX, e.clientY);
+		app.prototypr.plotPoints(e.clientX, e.clientY);
 	});
 });
 
