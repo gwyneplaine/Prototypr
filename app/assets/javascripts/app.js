@@ -75,10 +75,12 @@ $(document).ready(function(){
 			$($drawingInterface).removeClass('expanded');
 		} else if($toolId == 'clear'){
 			$('polygon').remove();
-			app.prototypr.polygons = [];
+			app.prototypr.polygons = {};
 		}
 		app.prototypr.selectTool($toolId);
 		$('.tool').removeClass('selected');
 		$(this).addClass('selected');
+		
+
 	});
 });

@@ -46,7 +46,8 @@ app.prototypr = {
 	strokeWidth: 2,
 	stroke: "#000",
 	strokeOpacity: 0.4,
-	polygons: [],
+	polygons: {},
+	// porygons: {},
 
 	// *********************************************************************************************** //
 	// THIS METHOD ADDS AN IMAGE BASED ON SPECIFIED URL PATH TO THE BACKGROUND OF THE DIV IN QUESTION; //
@@ -109,6 +110,8 @@ app.prototypr = {
 	},
 
 	ptInterface: function(x,y){
+		// debugger;
+		
 		if(this.currentTool == "selector"){
 			this.selectPolygon();
 		}
@@ -118,21 +121,45 @@ app.prototypr = {
 	},
 	//SELECT A POLYGON TO MOVE AROUND AND DRAG//
 	selectTool: function(tool){
+		// debugger;
+		$('.shard').off('click', this.opacityCheck);
 		this.currentTool = tool;
+		$('.shard.selected').attr('class','shard');
 		$(".guide").remove();
 		this.pos = [];
-	},
-	selectPolygon: function(){
-		$('.shard').on('click', function(){
-			$('.shard').removeClass('selected');
-			$(this).addClass('selected');
-			console.log($(this));
-		})
-		if(this.polygons.length >= 1){
+		console.log("the length of this object is " + this.polygons.length)
+		if(this.currentTool == "selector" && Object.keys(this.polygons).length >= 1) {
 			_.each(this.polygons,function(polygon){
 				polygon.drag();
 			});
+		} else {
+			_.each(this.polygons,function(polygon){
+				polygon.undrag();
+			});
 		}
+	},
+	opacityCheck: function(){
+		$('.shard').attr('class','shard');
+		$(this).attr('class','shard selected');
+		$id=$(this).attr('id');
+		console.log($(this));
+		var view = this;
+
+		$('#opacity .slider').on('change', function(e){
+			opacityVal = parseInt($(this).val())/ 10;
+			// debugger;
+			app.prototypr.polygons[$id].attr({
+				fillOpacity: opacityVal
+			});
+			console.log(app.prototypr.polygons[$id]);
+		})
+	},
+	selectPolygon: function(){
+		$('.shard').on('click', this.opacityCheck);
+	},
+	dragPolygon: function(){
+
+
 	},
 	changeOpacity:function(){
 
@@ -141,11 +168,7 @@ app.prototypr = {
 	// THIS FUNCTION RESIZES PLOTS THE POINTS AND STORES THEM INTO AN ARRAY TO BE PASSED INTO THE POLYGON OBJECT //
 	// ********************************************************************************************************* //
 	plotPoints: function(x,y){
-		if(this.polygons.length >= 1){
-			_.each(this.polygons,function(polygon){
-				polygon.undrag();
-			});
-		}
+
 		// var offsetX = -8;
 		// var offsetY = -8;
 		//push co-ordinates to the pos array everytime this function is called;
@@ -205,7 +228,8 @@ app.prototypr = {
 		
 		//Push polygons to an array
 		
-		this.polygons.push(p);
+		// this.polygons.push(p);
+		this.polygons[p.node.id] = p;
 		this.polygonCount++;
 		// this.polygonCount++;
 	}
