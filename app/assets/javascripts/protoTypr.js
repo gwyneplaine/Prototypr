@@ -26,15 +26,18 @@ app.cooler = {
 		this.genPalette(this.colors);
 	},
 	genPalette: function(array){
-		for(var i=0; i<array.length;i++){
-			$(".colorPicker").append("<div data-id='"+ array[i] +"' class='color'></div>");
-		}
+		_.each(array,function(hexcolor){
+			$(".colorPicker").append("<div data-id='"+ hexcolor +"' class='color'></div>");
+		})
+		// for(var i=0; i<array.length;i++){
+		// 	$(".colorPicker").append("<div data-id='"+ array[i] +"' class='color'></div>");
+		// }
 	}
 }
 app.prototypr = {
 	clickCounter:0,
-	offsetX: -5,
-	offsetY: 5,
+	// offsetX: -5,
+	// offsetY: 5,
 	pos:[],
 	sides:3,
 	polygonCount:0,
@@ -43,13 +46,18 @@ app.prototypr = {
 	stroke: "#000",
 	strokeOpacity: 0.4,
 
+	// *********************************************************************************************** //
+	// THIS METHOD ADDS AN IMAGE BASED ON SPECIFIED URL PATH TO THE BACKGROUND OF THE DIV IN QUESTION; //
+	// *********************************************************************************************** //
 	addImage: function(imgPath){
-		// ADD IMAGE BASED ON SPECIFIED URL PATH TO THE BACKGROUND OF THE DIV IN QUESTION;
 		$('.wrapper').css('background-image',"url("+imgPath+")");
-
 	},
+
+	// ************************************************************************************************************ //
+	// THIS FUNCTION CHECKS IF THERE IS CURRENTLY A BACKGROUND IMAGE, IF SO THEN REMOVE IT, IF NOT, LEAVE IT ALONE. //
+	// ************************************************************************************************************ //
 	removeImage:function(){
-		// CHECK IF THERE IS CURRENTLY A BACKGROUND IMAGE, IF SO THEN REMOVE IT, IF NOT, LEAVE IT ALONE. 
+		 
 		if($('.wrapper').css('background-image') == "none"){
 			return "";
 		}else{
@@ -57,6 +65,9 @@ app.prototypr = {
 		}
 	},
 
+	// ********************************************* //
+	// THIS FUNCTION INITIALIZES THE SNAP SVG OBJECT //
+	// ********************************************* //
 	initialize:function(width,height){
 		app.paper = Snap('#pt-canvas');
 		// app.paper = Snap(100,200);
@@ -66,52 +77,83 @@ app.prototypr = {
 		$('body').addClass('rmScroll');
 	},
 
+	// ******************************************************************************************************************** //
+	// THIS FUNCTION CREATES HELPER GUIDES TO KEEP A VISUAL HISTORY OF ALL COORDINATES TO BE PASSED INTO THE POLYGON OBJECT //
+	// ******************************************************************************************************************** //
 	helper: function(x,y,r){
-		var radius = 10;
+		var radius = 3;
 		console.log(r);
 		if(r !== undefined){
 			radius = r;
 		}; 
 
-
-		var pointerguide = app.paper.circle(x + this.offsetX, y + this.offsetY, radius);
+		var pointerguide = app.paper.circle(x, y, radius);
+		// var pointerguide = app.paper.circle(x + this.offsetX, y + this.offsetY, radius);
 		pointerguide.attr({
 			fill: this.color
 		});
 		pointerguide.addClass("guide");
+		$guide = $('.guide');
+		if($($guide).length === 1){
+			$($guide).attr('id','beginning');
+		}
 	},
 
+	// ***************************************************************************************** //
+	// THIS FUNCTION RESIZES THE SVG ELEMENT TO THE HEIGHT AND WIDTH SPECIFIED IN THE PARAMETERS //
+	// ***************************************************************************************** //
 	resizeCanv: function(width, height){
 		$('#pt-canvas').attr('width',width).attr('height',height);
 	},
 
+	// ********************************************************************************************************* //
+	// THIS FUNCTION RESIZES PLOTS THE POINTS AND STORES THEM INTO AN ARRAY TO BE PASSED INTO THE POLYGON OBJECT //
+	// ********************************************************************************************************* //
 	plotPoints: function(x,y){
 		// var offsetX = -8;
 		// var offsetY = -8;
 		//push co-ordinates to the pos array everytime this function is called;
 		// this.pos.push(x);
 		// this.pos.push(y);
-		console.log(this.offsetX);
-		this.pos.push(x + this.offsetX);
+		// console.log(this.offsetX);
+		var view = this;
+		$('#beginning').on('click', function(e){
+			console.log("beginning clicked");
+			e.stopImmediatePropagation();
+			view.polygonCreator(view.pos);	
+			console.log(p);
+				view.clickCounter = 0;
+				view.pos = [];
+				$('.guide').remove();
+		});
+		this.pos.push(x);
+		this.pos.push(y);
+		// this.pos.push(x + this.offsetX);
+		// this.pos.push(y + this.offsetY);
 		console.log(this.pos);
-		this.pos.push(y + this.offsetY);
 		this.helper(x,y);
 		this.clickCounter++;
 		
-		if(this.clickCounter === this.sides){
-			//increment the polygonCount everytime a new polygon is created
-			this.polygonCreator(this.pos);			
-			// p = app.paper.polygon(this.pos);
-			// console.log(p);
-			// p.addClass("shard");
-			// p.node.id = 'shard'+this.polygonCount;
-			this.clickCounter = 0;
-			this.pos = [];
-			$('.guide').remove();
-		}
+		// if(this.clickCounter == this.sides){
+
+		// 	//increment the polygonCount everytime a new polygon is created
+		// 	this.polygonCreator(this.pos);			
+		// 	// p = app.paper.polygon(this.pos);
+		// 	// console.log(p);
+		// 	// p.addClass("shard");
+		// 	// p.node.id = 'shard'+this.polygonCount;
+		// 	this.clickCounter = 0;
+		// 	this.pos = [];
+		// 	$('.guide').remove();
+		// }
 	}, 
 
+	plotPointsAlt:function(x,y){
+		// if(x)
+	},
+
 	polygonCreator: function(posArray){
+		console.log(this);
 		p = app.paper.polygon(posArray);
 		p.addClass("shard");
 		p.node.id = 'shard'+this.polygonCount;
@@ -124,54 +166,3 @@ app.prototypr = {
 		this.polygonCount++;
 	}
 }
-$(document).ready(function(){
-	var winW = $(window).innerWidth();
-	var winH = $(window).innerHeight();
-	var testPath = "http://www.fillmurray.com/1200/800";
-	app.prototypr.addImage(testPath);
-	// $('#drawableCanv').width(winW).height(winH);
-	// var paper = Snap('#drawableCanv');
-	app.prototypr.initialize(winW,winH);
-	$(window).on('resize', function(e){
-		var winW = $(window).innerWidth();
-		var winH = $(window).innerHeight();
-		app.prototypr.resizeCanv(winW,winH);
-	});
-	$(window).on('scroll',function(e){
-		var currentPos = $(window).scrollTop();
-		var navH = $("nav").height();
-		if(currentPos >= navH){
-			$('.drawingInterface').addClass('appendTop');
-		}else{
-			$('.drawingInterface').removeClass('appendTop');
-		}
-	})
-	$('svg').on('click',function(e){
-		console.log("this was clicked");
-		// console.log(e);
-		e.stopImmediatePropagation();
-		// console.log(e.clientX);
-		// console.log(e.clientY);
-		app.prototypr.plotPoints(e.clientX, e.clientY);
-	});
-	app.cooler.init(0);
-	var $colors = $('.color');
-	$colors.each(function(i, color){
-		var colorVal = $(this).attr('data-id');
-		$(this).css('background-color', colorVal);
-	});
-	$('.expander').on('click',function(e){
-		$(this).toggleClass('active');
-		$(this).siblings('.colorPicker').toggleClass('expanded');
-	})
-	$colors.on('click', function(e){
-		app.prototypr.color = $(this).attr('data-id');
-		$colors.removeClass('selected');
-		$(this).addClass('selected');
-		$('.expander').css('background-color', app.prototypr.color);
-	});
-
-	$('#removeImg').on('click', function(){
-		app.prototypr.removeImage();
-	});
-});

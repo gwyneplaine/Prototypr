@@ -79,9 +79,24 @@ nav{
 	position: fixed;
 	right:10px;
 }
+#beginning{
+	fill: rgba(255,255,255,0.9) !important;
+	stroke: #ffeeee;
+	z-index:10000;
+	&:hover{
+		stroke: #ff2222;
+	}
+}
 .guide{
 	// fill: rgba(255,40,40,.2);
 	stroke: black;
 	stroke-opacity: .4;
 	stroke-width: 4px;
+	transition: stroke-width .4s;
+	&:hover{
+		stroke: #ffeeee;
+		stroke-opacity:.8;
+		stroke-width:20px;
+		transition: stroke-width .4s;
+	}
 }
