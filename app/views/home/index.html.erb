@@ -1,5 +1,5 @@
 <div class="drawingInterface">
-	<div class="expander"></div>
+	<div id="currentColor"></div>
 	<div class="colorPicker">
 		
 <!-- 		<div data-id="#ffffff" class="color"></div>
@@ -32,7 +32,17 @@
 
 	</div>
 </div>
+<div id="opacity">
+	<input class="slider" type="range" min="0" max="10">
+
+</div>
 <div class="controls">
-	<button id="removeImg">remove image</button>
+	<div id="removeImg" class="tool">remove image</div>
+	<div id="addImg" class="tool"> add Image </div>
+	<div id="selector" class="tool" data-id="selector">selector </div>
+	<div id="pen" class="tool" data-id="pen">pen </div>
+	<div id="clear" class="tool">clear</div>
+	<div id="undo" class="tool">undo</div>
+	<div id="redo" class="tool">redo</div>
 </div>
 <svg id="pt-canvas"></svg>

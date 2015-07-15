@@ -36,6 +36,7 @@ app.cooler = {
 }
 app.prototypr = {
 	clickCounter:0,
+	currentTool:"pen",
 	// offsetX: -5,
 	// offsetY: 5,
 	pos:[],
@@ -45,6 +46,7 @@ app.prototypr = {
 	strokeWidth: 2,
 	stroke: "#000",
 	strokeOpacity: 0.4,
+	polygons: [],
 
 	// *********************************************************************************************** //
 	// THIS METHOD ADDS AN IMAGE BASED ON SPECIFIED URL PATH TO THE BACKGROUND OF THE DIV IN QUESTION; //
@@ -106,10 +108,44 @@ app.prototypr = {
 		$('#pt-canvas').attr('width',width).attr('height',height);
 	},
 
+	ptInterface: function(x,y){
+		if(this.currentTool == "selector"){
+			this.selectPolygon();
+		}
+		else if(this.currentTool == "pen"){
+			this.plotPoints(x, y);
+		}
+	},
+	//SELECT A POLYGON TO MOVE AROUND AND DRAG//
+	selectTool: function(tool){
+		this.currentTool = tool;
+		$(".guide").remove();
+		this.pos = [];
+	},
+	selectPolygon: function(){
+		$('.shard').on('click', function(){
+			$('.shard').removeClass('selected');
+			$(this).addClass('selected');
+			console.log($(this));
+		})
+		if(this.polygons.length >= 1){
+			_.each(this.polygons,function(polygon){
+				polygon.drag();
+			});
+		}
+	},
+	changeOpacity:function(){
+
+	},
 	// ********************************************************************************************************* //
 	// THIS FUNCTION RESIZES PLOTS THE POINTS AND STORES THEM INTO AN ARRAY TO BE PASSED INTO THE POLYGON OBJECT //
 	// ********************************************************************************************************* //
 	plotPoints: function(x,y){
+		if(this.polygons.length >= 1){
+			_.each(this.polygons,function(polygon){
+				polygon.undrag();
+			});
+		}
 		// var offsetX = -8;
 		// var offsetY = -8;
 		//push co-ordinates to the pos array everytime this function is called;
@@ -153,16 +189,24 @@ app.prototypr = {
 	},
 
 	polygonCreator: function(posArray){
+
 		console.log(this);
 		p = app.paper.polygon(posArray);
+
 		p.addClass("shard");
 		p.node.id = 'shard'+this.polygonCount;
 		p.attr({
 			fill: this.color,
+			fillOpacity: 0.4,
 			strokeWidth: this.strokeWidth,
 			stroke: this.stroke,
 			strokeOpacity: this.strokeOpacity
 		});
+		
+		//Push polygons to an array
+		
+		this.polygons.push(p);
 		this.polygonCount++;
+		// this.polygonCount++;
 	}
 }

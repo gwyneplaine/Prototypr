@@ -6,7 +6,13 @@
 	box-sizing: border-box;
 	margin:0;
 }
-
+.shard{
+	&.selected{
+		stroke: #ffaaaa !important;
+		stroke-opacity: .8 !important;
+		stroke-width: 15px !important;
+	}
+}
 .rmScroll{
 	overflow:hidden;
 }
@@ -26,55 +32,58 @@ nav{
 }
 .drawingInterface{
 	position:fixed;
+	width:10px;
+	transition: width .2s, height .2s, border .4s;
 	&.appendTop{
 		top:0px;
 	}
-}
-.expander{
-	width:50px;
-	height:50px;
-	background: rgba(0,25,125,0.9);
-	&:hover{
-		transition: all .4s;
-		background: rgba(255,29,0,0.8)!important;
-		cursor:pointer;
-	}
-	&.active{
-		transition: all .4s;
-		width:200px;
+	&.expanded{
+		width:400px;
+		transition: width .2s, height .2s, border .4s;
 	}
 }
+
 .colorPicker{
-	position:fixed;
+	// position:fixed;
 	overflow-y: scroll;
 	// height:400px;
 	left:0px;
+	width:100%;
 	// background: #ae0;
 	max-height:100vh;
 
-	.color{
-		width:10px;
-		height:40px;
-	}
-	&.expanded .color{
-		transition: width .2s, height .2s, border .4s;
-		width:200px;
-		&:hover{
-			transition: width .2s, height .2s;
-			// width:250px;
-			height:60px;
-			border-right: 50px solid rgba(0,0,0,0.8);
-		}
-		&.selected{
-			transition: all .4s;
-			height:80px;
-			border-right: 50px solid rgba(0,0,0,0.8);
-			border-top: 2px solid #2c2c2c;
-			border-bottom:2px solid #2c2c2c;
-		}
+}
 
+.color{
+	width:100%;
+	height:40px;
+	&:hover{
+		transition: width .2s, height .2s;
+		// width:250px;
+		height:60px;
+		border-right: 50px solid rgba(0,0,0,0.8);
+	}
+	&.selected{
+		transition: all .4s;
+		height:80px;
+		border-right: 50px solid rgba(0,0,0,0.8);
+		border-top: 2px solid #2c2c2c;
+		border-bottom:2px solid #2c2c2c;
 	}
 }
+#currentColor{
+	@extend .color;
+	height:200px !important;
+	background: rgba(0,25,125,0.9);
+	&:hover{
+		// height:200px;
+		border:none;
+	}
+	&.selected{
+		border:0px !important;
+	}
+}
+
 .controls{
 	position: fixed;
 	right:10px;
@@ -98,5 +107,28 @@ nav{
 		stroke-opacity:.8;
 		stroke-width:20px;
 		transition: stroke-width .4s;
+	}
+}
+
+.tool{
+	text-align:center;
+	padding-top:25px;
+	display:block;
+	cursor: pointer;
+	background: black;
+	color: white;
+	width: 100px;
+	height: 100px;
+	margin-top:15px;
+	transition: background .4s;
+	&:hover{
+		background: white;
+		color: black;
+
+	}
+	&.selected{
+		background: #ffaaaa;
+		color: black;
+		transition: background .4s;
 	}
 }
