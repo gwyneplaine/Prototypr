@@ -162,6 +162,9 @@ app.prototypr = {
 		// app.prototypr.polygons[$id].attr({
 		// 	fill: this.color
 		// });
+		var $currentOpacity = parseFloat($(this).css('fill-opacity'))*10;
+		console.log($currentOpacity);
+		$('#opacity .slider').val($currentOpacity);
 		$('#opacity .slider').on('change', function(e){
 			var opacityVal = parseInt($(this).val())/ 10;
 			// debugger;

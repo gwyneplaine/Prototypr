@@ -18,7 +18,8 @@ $(document).ready(function(){
 
 	$('form').bind('ajax:success ajax:error', function(evt, data, status, xhr){
 		// debugger;
-		$(".wrapper").css('background-image', "url(" + data.responseText + ")");
+		// $(".wrapper").css('background-image', "url(" + data.responseText + ")");
+		app.prototypr.addImage(data.responseText);
 		console.log("WHAT THE FUCK.");
 		$('.formWrapper').addClass('hidden');
 	});
@@ -77,6 +78,7 @@ $(document).ready(function(){
 	// 	$('#currentColor').css('background-color', app.prototypr.color);
 	// 	$($drawingInterface).toggleClass('expanded');
 	// });
+
 	app.prototypr.selectColor();
 
 	$('#removeImg').on('click', function(){
@@ -86,8 +88,10 @@ $(document).ready(function(){
 	var $drawingInterface = $('.drawingInterface');
 	$('#currentColor').on('click',function(e){
 		// $(this).toggleClass('active');
-		$(this).closest('.drawingInterface').toggleClass('expanded');
+		$('.drawingInterface').toggleClass('expanded');
 	});
+
+
 	//THIS SHOULD BE AN EVENT LISTENER IN BACKBONE, FOR THE INTERFACE VIEW
 	$('.tool').on('click',function(){
 		console.log($(this).attr('id'));
@@ -106,7 +110,14 @@ $(document).ready(function(){
 		$('.tool').removeClass('selected');
 		$(this).addClass('selected');
 	});
+	$('.backDrop').on('click', function(){
+		$('.formWrapper').addClass('hidden');
+	});
 
+	$('.upload-field').on('change', function(e){
+		$(this).closest('.upload-button').addClass('active');
+		$('.upload-submit').addClass('prompt-user');
+	})
 	// $('#file_form').on('submit', function(e){
 	// 	e.preventDefault();
 	// 	var $path = $('#file_field').val();
