@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: gwyneplaine
+  api_key: '887998186296319'
+  api_secret: OuraEF2h4cWa97_saGZhFBt5DeU
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: gwyneplaine
+  api_key: '887998186296319'
+  api_secret: OuraEF2h4cWa97_saGZhFBt5DeU
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: gwyneplaine
+  api_key: '887998186296319'
+  api_secret: OuraEF2h4cWa97_saGZhFBt5DeU
+  enhance_image_tag: true
+  static_image_support: false

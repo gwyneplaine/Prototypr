@@ -21,6 +21,28 @@ nav{
 		margin:0;
 	}
 }
+.formWrapper{
+	position: absolute;
+	display:block;
+	background: rgba(22,22,22,.8);
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	.form{
+		position:relative;
+		text-align:center;
+		display:block;
+		margin:25px auto;
+		vertical-align:middle;
+		max-width: 500px;
+		background: white;
+		input{
+			display:block;
+			margin-top: 25px;
+		}
+	}
+}
 // .primary-nav{
 // 	// position:fixed;
 // 	// top:0px;

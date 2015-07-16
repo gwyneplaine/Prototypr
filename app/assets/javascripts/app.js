@@ -1,5 +1,6 @@
 var app = app || {};
 $(document).ready(function(){
+	$.cloudinary.config({ cloud_name: 'gwyneplaine', api_key: '887998186296319'});
 	var winW = $(window).innerWidth();
 	var winH = $(window).innerHeight();
 	var testPath = "http://www.fillmurray.com/1200/800";
@@ -83,4 +84,14 @@ $(document).ready(function(){
 		
 
 	});
+
+	$('#file_form').on('submit', function(e){
+		e.preventDefault();
+		var $path = $('#file_field').val();
+		$.ajax({
+			method: "POST",
+			url: "/images/create",
+			data: {file: $path }
+		})
+	})
 });

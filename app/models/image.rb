@@ -1,2 +1,2 @@
-class Svg < ActiveRecord::Base
+class Image < ActiveRecord::Base
 end
