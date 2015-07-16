@@ -1,6 +1,28 @@
 var app = app || {};
+
+// // $('form.cloudinary').bind('ajax:success', function(evt, data, status, xhr){
+// // //do some stuff on success
+// // 	debugger;
+// // })
+
+// $('form#sign-up-form').ajaxError(function(event, request, settings) {
+// 	debugger;
+// })
+
+// $('form#sign-up-form').bind('ajax:success', function(evt, data, status, xhr){
+// 	debugger;
+// })
+
 $(document).ready(function(){
-	$.cloudinary.config({ cloud_name: 'gwyneplaine', api_key: '887998186296319'});
+
+
+	$('form').bind('ajax:success ajax:error', function(evt, data, status, xhr){
+		// debugger;
+		$(".wrapper").css('background-image', "url(" + data.responseText + ")");
+		console.log("WHAT THE FUCK.");
+		$('.formWrapper').addClass('hidden');
+	});
+
 	var winW = $(window).innerWidth();
 	var winH = $(window).innerHeight();
 	var testPath = "http://www.fillmurray.com/1200/800";
@@ -48,13 +70,14 @@ $(document).ready(function(){
 		$(this).css('background-color', colorVal);
 	});
 
-	$colors.on('click', function(e){
-		app.prototypr.color = $(this).attr('data-id');
-		$colors.removeClass('selected');
-		$(this).addClass('selected');
-		$('#currentColor').css('background-color', app.prototypr.color);
-		$($drawingInterface).toggleClass('expanded');
-	});
+	// $colors.on('click', function(e){
+	// 	app.prototypr.color = $(this).attr('data-id');
+	// 	$colors.removeClass('selected');
+	// 	$(this).addClass('selected');
+	// 	$('#currentColor').css('background-color', app.prototypr.color);
+	// 	$($drawingInterface).toggleClass('expanded');
+	// });
+	app.prototypr.selectColor();
 
 	$('#removeImg').on('click', function(){
 		app.prototypr.removeImage();
@@ -71,27 +94,26 @@ $(document).ready(function(){
 		var $toolId = $(this).attr('id')
 		if($toolId == "pen"){
 			$($drawingInterface).addClass('expanded');
-		}
-		else if($toolId == "selector"){
+		} else if($toolId == "selector"){
 			$($drawingInterface).removeClass('expanded');
 		} else if($toolId == 'clear'){
 			$('polygon').remove();
 			app.prototypr.polygons = {};
+		} else if($toolId == 'addImg'){
+			$('.formWrapper').removeClass('hidden');
 		}
 		app.prototypr.selectTool($toolId);
 		$('.tool').removeClass('selected');
 		$(this).addClass('selected');
-		
-
 	});
 
-	$('#file_form').on('submit', function(e){
-		e.preventDefault();
-		var $path = $('#file_field').val();
-		$.ajax({
-			method: "POST",
-			url: "/images/create",
-			data: {file: $path }
-		})
-	})
+	// $('#file_form').on('submit', function(e){
+	// 	e.preventDefault();
+	// 	var $path = $('#file_field').val();
+	// 	$.ajax({
+	// 		method: "POST",
+	// 		url: "/images/create",
+	// 		data: {file: $path }
+	// 	})
+	// });
 });

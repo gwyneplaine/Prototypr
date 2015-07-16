@@ -4,17 +4,25 @@ class ImageController < ApplicationController
 	end
 
 	def create
-		binding.pry
+		# if params[:file].present?
+		# 	preloaded = Cloudinary::PreloadedFile.new(params[:file].path)         
+		# 	raise "Invalid upload signature" if !preloaded.valid?
+		# 	render :json => preloaded
+		# else
+		# 	render :json => "NOPE"
+		# end
 		# raise 
-		imfFile = params[:file]
+		imgFile = params[:file]
 		if imgFile
-			cloudObj = Cloudinary::Uploader.upload[imgFile.path]
-			@image = cloudObk['url']
+			cloudObj = Cloudinary::Uploader.upload( imgFile.path )
+			@image = cloudObj['url']
 		end
-		respond_to do |format|
-			format.html {}
-			format.json {render json: @image}
-		end
+		# binding.pry
+		render json: cloudObj['url'], status: 200
+		# respond_to do |format|
+		# 	format.html {}
+		# 	format.json {render json: cloudObj}
+		# end
 	end
 
 	def new 

@@ -4,15 +4,14 @@
   <title>ProtoTypr</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= cloudinary_js_config %>
   <%= csrf_meta_tags %>
 
 </head>
 <body>
 <nav class="primary-nav">
 	<ul>
-		<li>Sign Up</li>
-		<li>Sign In</li>
+		<%= link_to('Sign Up', new_user_registration_path) %>
+		<%= link_to('Sign In',new_user_session_path) %>
 	</ul>
 </nav>
 <div class="wrapper">

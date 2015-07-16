@@ -47,6 +47,7 @@ app.prototypr = {
 	stroke: "#000",
 	strokeOpacity: 0.4,
 	polygons: {},
+	tmpPolygons: {},
 	// porygons: {},
 
 	// *********************************************************************************************** //
@@ -60,7 +61,6 @@ app.prototypr = {
 	// THIS FUNCTION CHECKS IF THERE IS CURRENTLY A BACKGROUND IMAGE, IF SO THEN REMOVE IT, IF NOT, LEAVE IT ALONE. //
 	// ************************************************************************************************************ //
 	removeImage:function(){
-		 
 		if($('.wrapper').css('background-image') == "none"){
 			return "";
 		}else{
@@ -108,10 +108,19 @@ app.prototypr = {
 	resizeCanv: function(width, height){
 		$('#pt-canvas').attr('width',width).attr('height',height);
 	},
-
+	selectColor: function(){
+		var $colors= $(".color");
+		var $drawingInterface = $('.drawingInterface');
+		console.log($colors);
+		$('body').on('click','.color', function(e){
+			app.prototypr.color = $(this).attr('data-id');
+			$('.color').removeClass('selected');
+			$(this).addClass('selected');
+			$('#currentColor').css('background-color', app.prototypr.color);
+			$($drawingInterface).toggleClass('expanded');
+		});
+	},
 	ptInterface: function(x,y){
-		// debugger;
-		
 		if(this.currentTool == "selector"){
 			this.selectPolygon();
 		}
@@ -119,10 +128,10 @@ app.prototypr = {
 			this.plotPoints(x, y);
 		}
 	},
-	//SELECT A POLYGON TO MOVE AROUND AND DRAG//
+	//SELECT TOOL//
 	selectTool: function(tool){
-		// debugger;
-		$('.shard').off('click', this.opacityCheck);
+		$('#opacity').addClass('hidden');
+		$('.shard').off('click', this.polygonEdit);
 		this.currentTool = tool;
 		$('.shard.selected').attr('class','shard');
 		$(".guide").remove();
@@ -138,32 +147,39 @@ app.prototypr = {
 			});
 		}
 	},
-	opacityCheck: function(){
+	changeOpacity:function(){
+
+	},
+	polygonEdit: function(){
 		$('.shard').attr('class','shard');
 		$(this).attr('class','shard selected');
 		$id=$(this).attr('id');
 		console.log($(this));
 		var view = this;
-
+		// $('.color').on('click',function(e){
+		// 	var $colorVal = $(this).
+		// });
+		// app.prototypr.polygons[$id].attr({
+		// 	fill: this.color
+		// });
 		$('#opacity .slider').on('change', function(e){
-			opacityVal = parseInt($(this).val())/ 10;
+			var opacityVal = parseInt($(this).val())/ 10;
 			// debugger;
 			app.prototypr.polygons[$id].attr({
 				fillOpacity: opacityVal
 			});
 			console.log(app.prototypr.polygons[$id]);
-		})
+		});
 	},
 	selectPolygon: function(){
-		$('.shard').on('click', this.opacityCheck);
+		$('#opacity').removeClass('hidden');
+		$('.shard').on('click', this.polygonEdit);
 	},
 	dragPolygon: function(){
 
 
 	},
-	changeOpacity:function(){
 
-	},
 	// ********************************************************************************************************* //
 	// THIS FUNCTION RESIZES PLOTS THE POINTS AND STORES THEM INTO AN ARRAY TO BE PASSED INTO THE POLYGON OBJECT //
 	// ********************************************************************************************************* //
@@ -176,6 +192,7 @@ app.prototypr = {
 		// this.pos.push(y);
 		// console.log(this.offsetX);
 		var view = this;
+
 		$('#beginning').on('click', function(e){
 			console.log("beginning clicked");
 			e.stopImmediatePropagation();
@@ -187,8 +204,10 @@ app.prototypr = {
 		});
 		this.pos.push(x);
 		this.pos.push(y);
+
 		// this.pos.push(x + this.offsetX);
 		// this.pos.push(y + this.offsetY);
+		
 		console.log(this.pos);
 		this.helper(x,y);
 		this.clickCounter++;

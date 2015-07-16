@@ -1,16 +1,18 @@
-<!-- <div class="formWrapper">
+
+<div class="formWrapper hidden">
 	<div class="form" id="file_form">
-		<form action="post">
-			<input type="file" id="file_field">
-			<input type="submit" id="file_submit" class="full-width">
-		</form>
+		<%= form_tag(images_create_path, :id => "cloudinary", :method => :post, :remote => true, :data => { :remote => true }, "data-type" => "json", :html => { :multipart => true }) do  %>
+			<%= file_field_tag :file %>
+		  	<%#= cl_image_upload_tag(:image_id, :name => "image_id") %>
+		  	<%= submit_tag "Upload" %>
+		<% end %>
 	</div>
-</div> -->
-
-
+</div>
+<!-- <form>
 <input name="file" type="file" 
-   class="cloudinary-fileupload" data-cloudinary-field="image_id" 
+   class="upload_field cloudinary-fileupload" data-cloudinary-field="image_id" 
    data-form-data=" ... html-escaped JSON data ... " ></input>
+</form> -->
 <div class="drawingInterface">
 	<div id="currentColor"></div>
 	<div class="colorPicker">
@@ -45,7 +47,7 @@
 
 	</div>
 </div>
-<div id="opacity">
+<div id="opacity" class="hidden">
 	<input class="slider" type="range" min="0" max="10">
 </div>
 <div class="controls">
@@ -54,7 +56,7 @@
 	<div id="selector" class="tool" data-id="selector">selector </div>
 	<div id="pen" class="tool" data-id="pen">pen </div>
 	<div id="clear" class="tool">clear</div>
-	<div id="undo" class="tool">undo</div>
-	<div id="redo" class="tool">redo</div>
+<!-- 	<div id="undo" class="tool">undo</div>
+	<div id="redo" class="tool">redo</div> -->
 </div>
 <svg id="pt-canvas"></svg>
