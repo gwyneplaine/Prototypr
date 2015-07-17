@@ -24,8 +24,14 @@
 	overflow:hidden;
 }
 nav{
+	background: #2c2c2c;
+	padding: 12px;
 	ul{
 		margin:0;
+		a{
+			color: white;
+			text-decoration:none;
+		}
 	}
 }
 .formWrapper{
