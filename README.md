@@ -6,3 +6,18 @@ After reading an incredibly insightful [article](http://www.smashingmagazine.com
 ## Dependencies
 The application uses Ruby on Rails for its basic CRUD system, postgreSQL for the database and is also hosted on Heroku. Aside from this, jQuery was used to facilitate easier access to DOM elements and SnapJS was employed to allow for easier manipulation, creation and storage of SVG elements created by the application. 
 
+## Improvements
+The application currently only allows for the manipulation and creation of SVGs. In the future there should be an option to allow users to:
+* generate pieces using clip paths. 
+* undo and redo any changes made to an object 
+* export completed works as SVGs or raster images.
+
+## Technologies Used: 
+* Javascript
+* jQuery
+* underscore
+* HTML
+* SCSS
+* Ruby on Rails
+* PostgreSQL
+
