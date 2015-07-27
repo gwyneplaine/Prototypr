@@ -25,7 +25,7 @@ development:
   <<: *default
   database: ProtoTypr_development
   host: localhost
-  user: charleslee
+  user: Gwyneplaine1
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.

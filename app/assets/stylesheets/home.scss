@@ -113,47 +113,6 @@ nav{
 		// border-right: 50px solid rgba(0,0,0,0.8);
 	}
 }
-#currentColor{
-	@extend .tool;
-	// @extend .color;
-	// height:200px !important;
-	background: rgba(0,25,125,0.9);
-	border: 1px solid #aaa;
-	// &:hover{
-	// 	// height:200px;
-	// 	border:none;
-	// }
-	// &.selected{
-	// 	border:0px !important;
-	// }
-}
-
-.controls{
-	position: fixed;
-	right:10px;
-}
-#beginning{
-	fill: rgba(255,255,255,0.9) !important;
-	stroke: #ff2222;
-	z-index:10000;
-	&:hover{
-		stroke: #ff2222;
-	}
-}
-.guide{
-	// fill: rgba(255,40,40,.2);
-	stroke: black;
-	stroke-opacity: .4;
-	stroke-width: 4px;
-	transition: stroke-width .4s;
-	&:hover{
-		stroke: #ffeeee;
-		stroke-opacity:.8;
-		stroke-width:20px;
-		transition: stroke-width .4s;
-	}
-}
-
 .tool{
 	i{
 		display:table-cell;
@@ -180,6 +139,52 @@ nav{
 		transition: background .4s;
 	}
 }
+#currentColor{
+	@extend .tool;
+	// @extend .color;
+	// height:200px !important;
+	background: rgba(0,25,125,0.9);
+	border: 1px solid #aaa;
+	// &:hover{
+	// 	// height:200px;
+	// 	border:none;
+	// }
+	// &.selected{
+	// 	border:0px !important;
+	// }
+}
+#currentStroke{
+	@extend .tool;
+	background: rgba(255,255,255,1);
+	border: 2px solid;
+}
+.controls{
+	position: fixed;
+	right:10px;
+}
+#beginning{
+	fill: rgba(255,255,255,0.9) !important;
+	stroke: #ff2222;
+	z-index:10000;
+	&:hover{
+		stroke: #ff2222;
+	}
+}
+.guide{
+	// fill: rgba(255,40,40,.2);
+	stroke: black;
+	stroke-opacity: .4;
+	stroke-width: 4px;
+	transition: stroke-width .4s;
+	&:hover{
+		stroke: #ffeeee;
+		stroke-opacity:.8;
+		stroke-width:20px;
+		transition: stroke-width .4s;
+	}
+}
+
+
 .upload-button{
     position: relative;
     // background: #44aaff;
@@ -197,7 +202,7 @@ nav{
     float:left;
     &:hover{
     	background: #44aaff;
-    	border: 4px solid #44aaff;	
+    	border: 4px solid #44aaff;
 		color: white;
     }
     &.active{
@@ -220,7 +225,7 @@ nav{
 			background: #00c6a5;
 			border: 4px solid #00c6a5;
 			color: #2c2c2c
-		}	
+		}
 	}
 	&:hover{
 		background: #aaa;

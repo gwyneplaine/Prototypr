@@ -4,26 +4,26 @@
 	<div class="backDrop"></div>
 	<div class="form clearfix" id="file_form">
 		<%= form_tag(images_create_path, :id => "cloudinary", :method => :post, :remote => true, :data => { :remote => true }, "data-type" => "json", :html => { :multipart => true }) do  %>
-			
+
 			<div class="upload-button btn col-8">
 				<span>Upload file</span>
-				<%= file_field_tag :file, :class => 'upload-field'%>	
+				<%= file_field_tag :file, :class => 'upload-field'%>
 			</div>
-			<%= submit_tag "submit" , :class => 'upload-submit btn col-4'%>	
+			<%= submit_tag "submit" , :class => 'upload-submit btn col-4'%>
 		  	<%#= cl_image_upload_tag(:image_id, :name => "image_id") %>
-		  	
+
 		<% end %>
 	</div>
 </div>
 <!-- <form>
-<input name="file" type="file" 
-   class="upload_field cloudinary-fileupload" data-cloudinary-field="image_id" 
+<input name="file" type="file"
+   class="upload_field cloudinary-fileupload" data-cloudinary-field="image_id"
    data-form-data=" ... html-escaped JSON data ... " ></input>
 </form> -->
 <div class="drawingInterface">
 
 	<div class="colorPicker">
-		
+
 <!-- 		<div data-id="#ffffff" class="color"></div>
 		<div data-id="#000000" class="color"></div>
 
@@ -61,10 +61,14 @@
 	<div id="selector" class="tool" data-id="selector"><i class="fa fa-arrows"></i></div>
 	<div id="pen" class="tool selected" data-id="pen"><i class="fa fa-pencil"></i></div>
 	<div id="clear" class="tool"><i class="fa fa-trash"></i></div>
-	<div id="currentColor"></div>
+	<div id="moveUp" class="tool"><i class="fa fa-arrow-up"></i></div>
+	<div id="moveDown" class="tool"><i class="fa fa-arrow-down"></i></div>
+	<div id="currentStroke" class="colorPalette"></div>
+	<div id="currentColor" class="colorPalette"></div>
 	<div id="opacity" class="hidden">
 		<input class="slider" type="range" min="0" max="10">
 	</div>
+
 <!-- 	<div id="undo" class="tool">undo</div>
 	<div id="redo" class="tool">redo</div> -->
 </div>

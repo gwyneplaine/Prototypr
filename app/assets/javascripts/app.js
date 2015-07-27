@@ -1,41 +1,70 @@
 var app = app || {};
 
-// // $('form.cloudinary').bind('ajax:success', function(evt, data, status, xhr){
-// // //do some stuff on success
-// // 	debugger;
-// // })
+// ALL EXTERNAL EVENT LISTENERS FOR THIS APPLICATION GO HERE
+app.eventListener = function(){
+	//THIS SHOULD BE AN EVENT LISTENER IN BACKBONE, FOR THE INTERFACE VIEW
+	$('body').on('click','.tool',function(){
+		// console.log($(this).attr('id'));
+		var $toolId = $(this).attr('id');
 
-// $('form#sign-up-form').ajaxError(function(event, request, settings) {
-// 	debugger;
-// })
+		if($toolId == "pen"){
+			$(app.$drawingInterface).addClass('expanded');
+		} else if($toolId == "selector"){
+			$(app.$drawingInterface).removeClass('expanded');
+		} else if($toolId == 'clear'){
+			$('polygon').remove();
+			app.prototypr.polygons = {};
+		} else if($toolId == 'addImg'){
+			$('.formWrapper').removeClass('hidden');
+		}
 
-// $('form#sign-up-form').bind('ajax:success', function(evt, data, status, xhr){
-// 	debugger;
-// })
+		if( $toolId !== "moveUp" && $toolId !== "moveDown" ){
+			app.prototypr.selectTool($toolId);
+			$('.tool').removeClass('selected');
+			$(this).addClass('selected');
+			app.prototypr.selectedPolygon = {};
+		}
 
-$(document).ready(function(){
+	});
 
-
-	$('form').bind('ajax:success ajax:error', function(evt, data, status, xhr){
-		// debugger;
-		// $(".wrapper").css('background-image', "url(" + data.responseText + ")");
-		app.prototypr.addImage(data.responseText);
-		console.log("WHAT THE FUCK.");
+	$('body').on('click','.backDrop',function(){
 		$('.formWrapper').addClass('hidden');
 	});
 
-	var winW = $(window).innerWidth();
-	var winH = $(window).innerHeight();
+	$('body').on('click','#moveUp', function(){
+		app.prototypr.moveUp('.shard.selected');
+	});
+
+	$('body').on('click','#moveDown', function(){
+		app.prototypr.moveDown('.shard.selected');
+	});
+
+	$('body').on('change','.upload-field', function(e){
+		$(this).closest('.upload-button').addClass('active');
+		$('.upload-submit').addClass('prompt-user');
+	});
+
+}
+
+$(document).ready(function(){
+
+	$('#currentColor').css('background', app.prototypr.color);
+	$('#currentStroke').css('border-color', app.prototypr.stroke);
+	$('form').bind('ajax:success ajax:error', function(evt, data, status, xhr){
+		app.prototypr.addImage(data.responseText);
+		$('.formWrapper').addClass('hidden');
+	});
+
+	app.winW = $(window).innerWidth();
+	app.winH = $(window).innerHeight();
 	var testPath = "http://www.fillmurray.com/1200/800";
 	app.prototypr.addImage(testPath);
-	// $('#drawableCanv').width(winW).height(winH);
-	// var paper = Snap('#drawableCanv');
-	app.prototypr.initialize(winW,winH);
-	
+	app.prototypr.initialize(app.winW,app.winH);
+
 	$(window).on('resize', function(e){
-		var winW = $(window).innerWidth();
-		var winH = $(window).innerHeight();
-		app.prototypr.resizeCanv(winW,winH);
+		app.winW = $(window).innerWidth();
+		app.winH = $(window).innerHeight();
+		app.prototypr.resizeCanv(app.winW,app.winH);
 	});
 
 	$(window).on('scroll',function(e){
@@ -49,35 +78,17 @@ $(document).ready(function(){
 	});
 
 	$('svg').on('click',function(e){
-		console.log("this was clicked");
-		// console.log(e);
 		e.stopImmediatePropagation();
-		// console.log(e.clientX);
-		// console.log(e.clientY);
-		console.log(e.offsetX + ", " + e.offsetY);
 		app.prototypr.ptInterface(e.offsetX, e.offsetY);
-
-		// $('#beginning').on('click', function(e){
-		// 	e.stopImmediatePropagation();
-		// 	console.log("help");
-		// });
 	});
 
-	app.cooler.init(0);	
-	
+	app.cooler.init(0);
+
 	var $colors = $('.color');
 	$colors.each(function(i, color){
 		var colorVal = $(this).attr('data-id');
 		$(this).css('background-color', colorVal);
 	});
-
-	// $colors.on('click', function(e){
-	// 	app.prototypr.color = $(this).attr('data-id');
-	// 	$colors.removeClass('selected');
-	// 	$(this).addClass('selected');
-	// 	$('#currentColor').css('background-color', app.prototypr.color);
-	// 	$($drawingInterface).toggleClass('expanded');
-	// });
 
 	app.prototypr.selectColor();
 
@@ -85,39 +96,22 @@ $(document).ready(function(){
 		app.prototypr.removeImage();
 	});
 
-	var $drawingInterface = $('.drawingInterface');
-	$('#currentColor').on('click',function(e){
-		// $(this).toggleClass('active');
+	app.$drawingInterface = $('.drawingInterface');
+
+	$('body').on('click','#currentColor',function(e){
+		$('.colorPalette').removeClass('active');
 		$('.drawingInterface').toggleClass('expanded');
+		$(this).addClass('active');
 	});
 
-
-	//THIS SHOULD BE AN EVENT LISTENER IN BACKBONE, FOR THE INTERFACE VIEW
-	$('.tool').on('click',function(){
-		console.log($(this).attr('id'));
-		var $toolId = $(this).attr('id')
-		if($toolId == "pen"){
-			$($drawingInterface).addClass('expanded');
-		} else if($toolId == "selector"){
-			$($drawingInterface).removeClass('expanded');
-		} else if($toolId == 'clear'){
-			$('polygon').remove();
-			app.prototypr.polygons = {};
-		} else if($toolId == 'addImg'){
-			$('.formWrapper').removeClass('hidden');
-		}
-		app.prototypr.selectTool($toolId);
-		$('.tool').removeClass('selected');
-		$(this).addClass('selected');
-	});
-	$('.backDrop').on('click', function(){
-		$('.formWrapper').addClass('hidden');
+	$('body').on('click','#currentStroke',function(){
+		$('.drawingInterface').toggleClass('expanded');
+		$('.colorPalette').removeClass('active');
+		$(this).addClass('active');
 	});
 
-	$('.upload-field').on('change', function(e){
-		$(this).closest('.upload-button').addClass('active');
-		$('.upload-submit').addClass('prompt-user');
-	})
+	app.eventListener();
+
 	// $('#file_form').on('submit', function(e){
 	// 	e.preventDefault();
 	// 	var $path = $('#file_field').val();
