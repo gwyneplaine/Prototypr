@@ -11,6 +11,7 @@ The application currently only allows for the manipulation and creation of SVGs.
 * generate pieces using clip paths. 
 * undo and redo any changes made to an object 
 * export completed works as SVGs or raster images.
+* abstraction into a jQuery plugin for easy integration into 3rd party projects. 
 
 ## Technologies Used: 
 * Javascript
