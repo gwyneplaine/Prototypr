@@ -35,6 +35,7 @@ app.cooler = {
 		// }
 	}
 }
+
 app.prototypr = {
 	clickCounter:0,
 	currentTool:"pen",
@@ -258,4 +259,13 @@ app.prototypr = {
 			return '';
 		}
 	},
+	// save: function(){
+	// 	$("svg").attr({version: '1.1', xmlns: "http://www.w3.org/2000/svg"});
+	// 	var svg = $('#pt-canvas');
+	// 	var encoded = window.btoa(unescape(encodeURIComponent(svg)));
+	// 	console.log(encoded);
+	// 	$("body").append($("<img src='data:image/svg+xml;base64,\n"+encoded+"' alt='file.svg'/>"));
+	//
+	//
+	// }
 }

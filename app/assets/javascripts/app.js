@@ -16,6 +16,8 @@ app.eventListener = function(){
 			app.prototypr.polygons = {};
 		} else if($toolId == 'addImg'){
 			$('.formWrapper').removeClass('hidden');
+		} else if($toolId == 'save'){
+			// app.prototypr.save();
 		}
 
 		if( $toolId !== "moveUp" && $toolId !== "moveDown" ){
